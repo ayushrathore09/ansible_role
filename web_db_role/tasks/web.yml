@@ -1,0 +1,33 @@
+      - name: Install required packages
+        apt:
+          name: 
+            - python3-venv
+          state: present
+        become: yes
+
+      - name: Create a virtual environment
+        command: python3 -m venv /opt/venv
+        args:
+          creates: /opt/venv
+        become: yes
+
+      - name: Install Flask and flask-mysql in virtual environment
+        command: /opt/venv/bin/pip install "{{ item }}"
+        with_items:
+          - flask
+          - flask-mysql
+        become: yes
+  
+      - name: copy the web application code
+        copy:
+          src: app.py
+          dest: /opt/app.py
+    
+      - name: Run Flask application
+        command: "nohup /opt/venv/bin/flask run --host=0.0.0.0"
+        args:
+          chdir: /opt
+        environment:
+          FLASK_APP: /opt/app.py
+          FLASK_ENV: development
+        become: yes
