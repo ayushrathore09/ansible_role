@@ -1,0 +1,6 @@
+---
+- name: Deploy a web application
+  hosts: linux
+  gather_facts: true
+  roles:
+    - web_db_server_role
