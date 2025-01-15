@@ -1,1 +1,1 @@
-this role installs the mqsql db and web server.
+this role is to installs the MYSQL DB and Web Server.
